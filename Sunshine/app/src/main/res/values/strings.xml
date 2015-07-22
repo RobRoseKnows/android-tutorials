@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sunshine</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Menu label to fetch updated weather info from the server-->
+    <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="title_activity_detail">Details</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Label for the location preference [CHAR LIMIT=30]-->
+    <string name="pref_location_label">Location</string>
+
+    <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE]-->
+    <string name="pref_location_key" translateable="false">location</string>
+
+    <!-- Default postal code for location preference [CHAR LIMIT=NONE]-->
+    <string name="pref_location_default" translateable="false">94043</string>
+
+    <string name="pref_temp_key" translateable="false">units</string>
+
+    <string name="pref_temp_default" translateable="false">metric</string>
+    <string name="action_map">View on Map</string>
+    <string name="action_share">Share</string>
+
+    <string-array name="pref_temp_entries">
+        <item>Metric</item>
+        <item>Imperial</item>
+    </string-array>
+
+    <string-array name="pref_temp_values" translateable="false">
+        <item>metric</item>
+        <item>imperial</item>
+    </string-array>
+
+</resources>
