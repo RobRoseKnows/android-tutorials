@@ -1,6 +1,7 @@
 package com.example.android.spotifyproject;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import kaaes.spotify.webapi.android.models.Artist;
 public class ArtistItemAdapter extends ArrayAdapter<Artist> {
     private int layout;
     private List<Artist> artists;
+    private final String LOG_TAG = ArtistItemAdapter.class.getSimpleName();
 
     public ArtistItemAdapter(Context context, int resource, List<Artist> items) {
         super(context, resource, items);
@@ -37,7 +39,7 @@ public class ArtistItemAdapter extends ArrayAdapter<Artist> {
     @Override
     public Artist getItem(int position) {
         // TODO Auto-generated method stub
-        return null;
+        return artists.get(position);
     }
 
     @Override
@@ -60,9 +62,15 @@ public class ArtistItemAdapter extends ArrayAdapter<Artist> {
         } else {
             row = convertView;
         }
-        ((TextView) row.findViewById(R.id.artistNameTextView)).setText(artist.name);
-        Picasso.with(getContext()).load(artist.images.get(artist.images.size()-1).url).into((ImageView) row.findViewById(R.id.artistImageView));
-        row.setTag(artist.id);
+
+        if(artist != null) {
+            ((TextView) row.findViewById(R.id.artistNameTextView)).setText(artist.name);
+            //Log.v(LOG_TAG, "Artist: " + position + " Num Images: " + artist.images.size());
+            if(artist.images.size() > 1) {
+                Picasso.with(getContext()).load(artist.images.get(artist.images.size() - 1).url).into((ImageView) row.findViewById(R.id.artistImageView));
+            }
+            row.setTag(artist.id);
+        }
         return row;
     }
 }

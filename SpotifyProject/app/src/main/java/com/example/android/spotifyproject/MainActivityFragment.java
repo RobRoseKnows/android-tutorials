@@ -16,12 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.Pager;
 
 
 /**
@@ -30,6 +32,7 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 public class MainActivityFragment extends Fragment {
     private final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     private ArtistItemAdapter artistsAdapter;
+    private List<Artist> artistsList;
 
     public MainActivityFragment() {
     }
@@ -37,8 +40,19 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        artistsAdapter = new ArtistItemAdapter(getActivity(), R.layout.list_item_artist, new List<Artist>);
-        EditText searchBar = (EditText) getActivity().findViewById(R.id.searchEditText);
+        artistsList = new ArrayList<Artist>();
+
+        artistsAdapter = new ArtistItemAdapter(getActivity(), R.layout.list_item_artist, artistsList);
+
+        ListView artistsList = (ListView) rootView.findViewById(R.id.listViewArtists);
+        artistsList.setAdapter(artistsAdapter);
+        return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EditText searchBar = (EditText) getView().findViewById(R.id.searchEditText);
 
         searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             ArtistsPager artists;
@@ -46,7 +60,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     FetchArtistsTask artistsTaskCall = new FetchArtistsTask();
                     artistsTaskCall.execute(String.valueOf(v.getText()));
                     handled = true;
@@ -54,10 +68,6 @@ public class MainActivityFragment extends Fragment {
                 return handled;
             }
         });
-
-        ListView artistsList = (ListView) rootView.findViewById(R.id.listViewArtists);
-        artistsList.setAdapter(artistsAdapter);
-        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     public class FetchArtistsTask extends AsyncTask<String, Void, ArtistsPager>{
