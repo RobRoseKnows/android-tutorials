@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sortby_array">
+        <item>Sort by Popularity</item>
+        <item>Sort by Upcoming</item>
+        <item>Sort by Playing Now</item>
+        <item>Sort by Top Rated</item>
+    </string-array>
+</resources>
