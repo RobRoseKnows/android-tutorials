@@ -44,36 +44,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        //Log.v(LOG_TAG, "onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //Log.v(LOG_TAG, "onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //Log.v(LOG_TAG, "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //Log.v(LOG_TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        //Log.v(LOG_TAG, "onDestroy");
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
