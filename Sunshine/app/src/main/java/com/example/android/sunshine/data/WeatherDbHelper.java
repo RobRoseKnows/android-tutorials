@@ -70,6 +70,20 @@ public class WeatherDbHelper extends SQLiteOpenHelper {
                 WeatherEntry.COLUMN_LOC_KEY + ") ON CONFLICT REPLACE);";
 
         sqLiteDatabase.execSQL(SQL_CREATE_WEATHER_TABLE);
+
+        final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
+                // Autoincrement location ID
+                LocationEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                // Set up name
+                LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
+                // Set up coordinates
+                LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
+                LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL, " +
+                // Set up location setting. Has to be unique zipcode so we have no duplicates.
+                LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL " +
+                " );";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_LOCATION_TABLE);
     }
 
     @Override
