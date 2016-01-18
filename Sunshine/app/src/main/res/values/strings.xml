@@ -12,27 +12,25 @@
 
     <!-- Label for the location preference [CHAR LIMIT=30]-->
     <string name="pref_location_label">Location</string>
-
     <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE]-->
     <string name="pref_location_key" translateable="false">location</string>
-
     <!-- Default postal code for location preference [CHAR LIMIT=NONE]-->
     <string name="pref_location_default" translateable="false">94043</string>
 
-    <string name="pref_temp_key" translateable="false">units</string>
+    <!-- Temperature unit-related strings -->
+    <string name="pref_units_label">Temperature Format</string>
 
-    <string name="pref_temp_default" translateable="false">metric</string>
+    <string name="pref_units_key" translateable="false">units</string>
+    <string name="pref_units_default" translateable="false">metric</string>
+
+    <string name="pref_units_label_metric">Metric</string>
+    <string name="pref_units_label_imperial">Imperial</string>
+
+    <string name="pref_units_metric" translateable="false">metric</string>
+    <string name="pref_units_imperial" translatable="false">imperial</string>
+
+    <!-- Map strings -->
     <string name="action_map">View on Map</string>
     <string name="action_share">Share</string>
-
-    <string-array name="pref_temp_entries">
-        <item>Metric</item>
-        <item>Imperial</item>
-    </string-array>
-
-    <string-array name="pref_temp_values" translateable="false">
-        <item>metric</item>
-        <item>imperial</item>
-    </string-array>
 
 </resources>

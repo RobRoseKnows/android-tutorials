@@ -226,7 +226,7 @@ public class ForecastFragment extends Fragment {
             double highF = high;
             double lowF = low;
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String tempFormat = sharedPref.getString(getString(R.string.pref_temp_key), getString(R.string.pref_temp_default));
+            String tempFormat = sharedPref.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_default));
             if(tempFormat != null && tempFormat.equals("imperial")) {
                 highF = high * 1.8 + 32;
                 lowF = low * 1.8 + 32;
