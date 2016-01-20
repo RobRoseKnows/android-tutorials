@@ -48,7 +48,7 @@ public class DetailActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if is is present.
         getMenuInflater().inflate(R.menu.detail, menu);
         return true;
     }
@@ -87,8 +87,8 @@ public class DetailActivity extends ActionBarActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
             Intent intent = getActivity().getIntent();
-            if(intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-                mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+            if(intent != null) {
+                mForecastStr = intent.getDataString();
                 ((TextView) rootView.findViewById(R.id.detail_forecast_textview)).setText(mForecastStr);
             }
             return rootView;
