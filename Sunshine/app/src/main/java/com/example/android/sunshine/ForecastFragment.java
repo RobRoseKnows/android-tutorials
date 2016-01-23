@@ -128,6 +128,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         ListView listViewForecast = (ListView) rootView.findViewById(R.id.listview_forecast);
         listViewForecast.setAdapter(mForecastAdapter);
+
+
         listViewForecast.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

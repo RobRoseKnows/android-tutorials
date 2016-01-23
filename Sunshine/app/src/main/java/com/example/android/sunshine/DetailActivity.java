@@ -81,6 +81,7 @@ public class DetailActivity extends ActionBarActivity {
 
         private static final String LOG_TAG = DetailFragment.class.getSimpleName();
         private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+        private static final int DETAIL_LOADER = 101;
 
         private String mForecastStr;
         private ShareActionProvider mShareActionProvider;
@@ -126,10 +127,6 @@ public class DetailActivity extends ActionBarActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-            if(mForecastStr != null) {
-
-            }
-
             return rootView;
         }
 
@@ -137,11 +134,16 @@ public class DetailActivity extends ActionBarActivity {
         public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
             inflater.inflate(R.menu.detailfragment, menu);
             MenuItem menuItem = menu.findItem(R.id.action_share);
-            ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
             if(mForecastStr != null) {
                 mShareActionProvider.setShareIntent(createShareForecastIntent());
             }
+        }
+
+        public void onActivityCreated(Bundle savedInstanceState) {
+            getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+            super.onActivityCreated(savedInstanceState);
         }
 
         private Intent createShareForecastIntent() {
@@ -154,22 +156,26 @@ public class DetailActivity extends ActionBarActivity {
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            Uri weatherUri = new Uri.Builder().path(mForecastStr).build();
-            String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
             Intent intent = getActivity().getIntent();
             if(intent == null)
                 return null;
 
-            Loader<Cursor> cursorLoader = new CursorLoader(getActivity(), weatherUri,
+            Loader<Cursor> cursorLoader = new CursorLoader(
+                    getActivity(),
+                    intent.getData(),
                     FORECAST_COLUMNS,
                     null,
                     null,
-                    sortOrder);
+                    null);
             return cursorLoader;
         }
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            if(!data.moveToFirst()) {
+                return;
+            }
+
             String weatherDate =
                     Utility.formatDate(data.getLong(COL_WEATHER_DATE));
             String weatherDesc =
@@ -179,11 +185,11 @@ public class DetailActivity extends ActionBarActivity {
             String weatherHigh = Utility.formatTemperature(data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
             String weatherLow = Utility.formatTemperature(data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
-            String fullString = String.format("%s - %s - %s/%s", weatherDate, weatherDesc, weatherHigh, weatherLow);
+            mForecastStr = String.format("%s - %s - %s/%s", weatherDate, weatherDesc, weatherHigh, weatherLow);
 
-            Intent intent = getActivity().getIntent();
-            if(intent != null) {
-                mForecastStr = intent.getDataString();
+            if(mForecastStr != null) {
+                TextView text = (TextView) getActivity().findViewById(R.id.detail_forecast_textview);
+                text.setText(mForecastStr);
             }
 
             if(mShareActionProvider != null) {
@@ -191,6 +197,8 @@ public class DetailActivity extends ActionBarActivity {
             } else {
                 Log.d(LOG_TAG, "Share Action Provider is null?");
             }
+
+
         }
 
         @Override
