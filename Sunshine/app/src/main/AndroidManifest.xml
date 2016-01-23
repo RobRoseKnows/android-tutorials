@@ -37,7 +37,17 @@
         
         <provider
             android:authorities="com.example.android.sunshine"
-            android:name=".data.WeatherProvider" />
+            android:name=".data.WeatherProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.example.android.sunshine.LOOK_AT_WEATHER">
+        </provider>
     </application>
+
+    <permission
+        android:name="com.example.android.sunshine.LOOK_AT_WEATHER"
+        android:protectionLevel="dangerous"
+        android:label="Look at Weather">
+    </permission>
 
 </manifest>
