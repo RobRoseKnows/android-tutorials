@@ -87,12 +87,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        updateWeather();
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
     }
@@ -118,6 +112,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         weatherTaskCall.execute(location);
+    }
+
+    public void onLocationChanged() {
+        updateWeather();
+        getLoaderManager().restartLoader(FETCH_WEATHER_LOADER_ID, null, this);
     }
 
     @Override
