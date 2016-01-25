@@ -116,12 +116,22 @@ public class Utility {
         return monthDayString;
     }
 
+    /**
+     * Retrieves the users current location setting.
+     * @param context Context to use to retrieve resources and preferences
+     * @return A String location identifier
+     */
     public static String getPreferredLocation(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),
                 context.getString(R.string.pref_location_default));
     }
 
+    /**
+     * Retrieves the users current units setting.
+     * @param context Context to use to retrieve resources and preferences
+     * @return True if Metric, false otherwise.
+     */
     public static boolean isMetric(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_units_key),
@@ -129,6 +139,13 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
+    /**
+     * Formats the temperature value retrieved from the database according to a users preferences.
+     * @param context Contrext to use for resource localization.
+     * @param temperature The double temperature value
+     * @param isMetric True if metric, false otherwise.
+     * @return The formatted temperature string.
+     */
     static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {
@@ -142,5 +159,39 @@ public class Utility {
     static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);
+    }
+
+    /**
+     * Method formats the wind speed/direction from data retrieved from the database.
+     * @param context Context used for resource localization and preference retrieval.
+     * @param windSpeed A float representing the wind speed in m/sec
+     * @param degrees The wind direction in degrees
+     * @return A formatted string using String resource formatting.
+     */
+    public static String getFormattedWind(Context context, float windSpeed, float degrees) {
+        int windFormat;
+        if (Utility.isMetric(context)) {
+            windFormat = R.string.format_wind_kmh;
+            windSpeed = 2.77777777777778f * windSpeed;
+        } else {
+            windFormat = R.string.format_wind_mph;
+            windSpeed = 4.47038888888889f * windSpeed;
+        }
+
+        // Replaced Gist logic with getWindDirection method.
+        String direction = getWindDirection(degrees);
+
+        return String.format(context.getString(windFormat), windSpeed, direction);
+    }
+
+    /**
+     * Calculates the wind direction from a direction retrieved by the database.
+     * From @triarius here: https://gist.github.com/anonymous/2ebebb679a56284efc68
+     * @param degrees A float representing wind direction.
+     * @return A String representing wind direction.
+     */
+    private static String getWindDirection(float degrees) {
+        String[] directions = new String[] {"N", "NE", "E", "SE", "S", "SW", "W", "NW"};
+        return directions[(int) Math.round(degrees / 45) % 8];
     }
 }
